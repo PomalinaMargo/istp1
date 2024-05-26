@@ -1,0 +1,12 @@
+[
+  {
+    "ContainingType": "LibraryInfrastructure.Controllers.ChartsController",
+    "Method": "GetCountByGenre",
+    "RelativePath": "api/Charts/countByGenre",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]

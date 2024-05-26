@@ -1,0 +1,113 @@
+﻿@model IEnumerable<LibraryDomain.Model.Book>
+
+
+
+<h1>Книги</h1>
+
+<p>
+    <a asp-action="Create">Створити нову книгу</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfPages)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Administrator)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfPages)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Administrator.Surname)
+                    @Html.DisplayFor(modelItem => item.Administrator.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.Name)
+                    @Html.DisplayFor(modelItem => item.Author.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre.GenreName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Детальніше</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="text-center">
+    <div id="countByGenreChart"></div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        function drawСountByGenreChart(genreToCountList) {
+            const dataTable = new google.visualization.DataTable();
+            dataTable.addColumn('string', 'Жанр');
+            dataTable.addColumn('number', 'Кількість книг цього жанру');
+
+            genreToCountList.forEach(item => {
+                dataTable.addRow([item.genre, item.count]);
+            });
+
+            const options = {
+                title: 'Кількість книг за жанрами',
+                width: 600,
+                height: 400,
+                legend: { position: 'none' },
+            };
+            const chart = new google.visualization.ColumnChart(document.getElementById('countByGenreChart'));
+            chart.draw(dataTable, options);
+        }
+
+        google.charts.load('current', { packages: ['corechart'] });
+        google.charts.setOnLoadCallback(drawCharts);
+
+        /* function drawCharts() {
+             const testData = [
+                 { genre: "Фентезі", count: 2 },
+                 { genre: "Фантастика", count: 2 },
+             ];
+             drawСountByGenreChart(testData);
+         }*/
+        function drawCharts() {
+            fetch('/api/charts/countByGenre')
+                .then(response => response.json())
+                .then(data => {
+                    drawСountByGenreChart(data)
+
+                });
+        }
+    </script>
+}

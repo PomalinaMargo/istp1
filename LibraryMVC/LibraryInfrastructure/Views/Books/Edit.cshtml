@@ -1,0 +1,59 @@
+﻿@model LibraryDomain.Model.Book
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Редагування</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Genreid" class="control-label"></label>
+                <select asp-for="Genreid" class="form-control" asp-items="ViewBag.Genreid"></select>
+                <span asp-validation-for="Genreid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Authorid" class="control-label"></label>
+                <select asp-for="Authorid" class="form-control" asp-items="ViewBag.Authorid"></select>
+                <span asp-validation-for="Authorid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfPages" class="control-label"></label>
+                <input asp-for="NumberOfPages" class="form-control" />
+                <span asp-validation-for="NumberOfPages" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Administratorid" class="control-label"></label>
+                <select asp-for="Administratorid" class="form-control" asp-items="ViewBag.Administratorid"></select>
+                <span asp-validation-for="Administratorid" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input type="submit" value="Зберегти" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Повернутися назад</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
